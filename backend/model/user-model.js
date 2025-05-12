@@ -28,5 +28,5 @@ const userSchema = new Schema({
     maxLength: 50,
   },
 });
-const User = mongoose.model("User", userSchema);
-export default User;
+export const User = mongoose.model("User", userSchema);
+
