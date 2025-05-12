@@ -62,6 +62,20 @@ export const updateUser = async (userId, updates) => {
   await User.updateOne({ _id: userId }, updateData);
 };
 
+export const getUsersByFilter = async (filter) => {
+  const users = await User.find({
+    $or: [
+      { firstName: { $regex: filter, $options: "i" } },
+      { lastName: { $regex: filter, $options: "i" } },
+    ],
+  });
+  return users;
+};
+export const getAllUser = async () => {
+  const users = await User.find();
+  return users;
+};
+
 const findUser = async (username) => {
   return await User.findOne({ username });
 };

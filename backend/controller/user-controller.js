@@ -1,6 +1,8 @@
 import {
   authenticateUser,
   createUser,
+  getAllUser,
+  getUsersByFilter,
   updateUser,
 } from "../service/user-service.js";
 
@@ -67,6 +69,34 @@ export const updateUserProfile = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export const getBulkUsers = async (req, res) => {
+  const { filter } = req.query;
+  try {
+    let users;
+    if (filter) {
+      users = await getUsersByFilter(filter);
+    } else {
+      users = await getAllUser();
+    }
+
+    res.status(200).json({
+      success: true,
+      users: users.map((user) => ({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        _id: user._id,
+      })),
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching users",
       error: error.message,
     });
   }
