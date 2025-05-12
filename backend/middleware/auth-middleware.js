@@ -11,7 +11,10 @@ export const authMiddleware = (req, res, next) => {
   const token = authHeaders.split(" ")[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.userId = decoded;
+    req.user = {
+      id: decoded.id,
+      username: decoded.username,
+    };
     next();
   } catch (error) {
     return res.status(403).json({

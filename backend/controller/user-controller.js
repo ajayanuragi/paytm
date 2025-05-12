@@ -1,4 +1,8 @@
-import { authenticateUser, createUser } from "../service/user-service.js";
+import {
+  authenticateUser,
+  createUser,
+  updateUser,
+} from "../service/user-service.js";
 
 export const signupUser = async (req, res) => {
   try {
@@ -41,6 +45,28 @@ export const signinUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Signin failed",
+      error: error.message,
+    });
+  }
+};
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    await updateUser(req.user.id, req.body);
+    res.status(200).json({
+      success: true,
+      message: "Updated successfully",
+    });
+  } catch (error) {
+    if (error.message === "WEAK_PASSWORD") {
+      return res.status(411).json({
+        success: false,
+        message: "Password is too weak",
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
       error: error.message,
     });
   }

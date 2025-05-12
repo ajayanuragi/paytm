@@ -1,7 +1,7 @@
 import { User } from "../model/user-model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config.js";
+import { JWT_SECRET } from "../config/config.js";
 
 export const createUser = async ({
   username,
@@ -43,6 +43,23 @@ export const authenticateUser = async ({ username, password }) => {
     }
   );
   return token;
+};
+
+export const updateUser = async (userId, updates) => {
+  const updateData = {};
+  if (updates.firstName) {
+    updateData.firstName = updates.firstName;
+  }
+  if (updates.lastName) {
+    updateData.lastName = updates.lastName;
+  }
+  if (updates.password) {
+    if (updates.password.length < 6) {
+      throw new Error("WEAK_PASSWORD");
+    }
+    updateData.password = await bcrypt.hash(updates.password, 10);
+  }
+  await User.updateOne({ _id: userId }, updateData);
 };
 
 const findUser = async (username) => {
