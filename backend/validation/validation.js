@@ -47,5 +47,5 @@ export const updateValidation = (req, res, next) => {
       errors: result.error.flatten().fieldErrors,
     });
   }
-  next()
+  next();
 };
