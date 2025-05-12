@@ -2,6 +2,7 @@ import { User } from "../model/user-model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config.js";
+import { Account } from "../model/account-model.js";
 
 export const createUser = async ({
   username,
@@ -17,6 +18,12 @@ export const createUser = async ({
     firstName,
     lastName,
     password: hashedPassword,
+  });
+
+  const initialBalance = Math.floor(Math.random() * 10000 * 100) + 100;
+  await Account.create({
+    userId: user._id,
+    balance: initialBalance,
   });
 
   const token = jwt.sign(
