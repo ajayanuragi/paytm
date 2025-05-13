@@ -1,3 +1,3 @@
 export function Signup() {
-  return <div>Signup</div>;
+  return <div className="min-h-screen">Signup</div>;
 }
