@@ -3,7 +3,7 @@ import { Button } from "../components/form/Button";
 import { Heading } from "../components/form/Heading";
 import { InputBox } from "../components/form/InputBox";
 import { SubHeading } from "../components/form/SubHeading";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import api from "../api/api";
 
 export function Signup() {
@@ -11,17 +11,14 @@ export function Signup() {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = async () => {
     setError("");
-    setLoading(true);
 
     if (!firstName || !lastName || !password || !username) {
       setError("Please fill in all fields");
-      setLoading(false);
       return;
     }
 
@@ -36,12 +33,10 @@ export function Signup() {
       localStorage.setItem("token", token);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message|| err.message);
+      setError(err.response?.data?.message || err.message);
       setTimeout(() => {
         setError("");
       }, 3000);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -84,8 +79,10 @@ export function Signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p className="text-red-600 text-sm">{error}</p>}
-          <Button text={"Sign Up"} onClick={handleSignup} loading={loading} />
-          <p className="text-center mt-4">Already have an account? Login</p>
+          <Button text={"Sign Up"} onClick={handleSignup} />
+          <p className="text-center mt-4 text-slate-500">
+            Already have an account? <Link to={"/signin"} className="text-black underline">Login</Link>{" "}
+          </p>
         </div>
       </div>
     </div>
