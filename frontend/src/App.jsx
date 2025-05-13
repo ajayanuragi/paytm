@@ -3,8 +3,8 @@ import { Signup } from "./pages/Signup";
 import { Signin } from "./pages/Signin";
 import { Dashboard } from "./pages/Dashboard";
 import { SendMoney } from "./pages/SendMoney";
-import { PortectedRoute } from "./components/ProtectedRoute";
-import { PageNotFound } from "./components/PageNotFound";
+import { PortectedRoute } from "./pages/ProtectedRoute";
+import { PageNotFound } from "./pages/PageNotFound";
 function App() {
   return (
     <>
