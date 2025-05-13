@@ -3,6 +3,8 @@ import { Button } from "../components/form/Button";
 import { Heading } from "../components/form/Heading";
 import { InputBox } from "../components/form/InputBox";
 import { SubHeading } from "../components/form/SubHeading";
+import { useNavigate } from "react-router";
+import api from "../api/api";
 
 export function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -11,6 +13,7 @@ export function Signup() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSignup = async () => {
     setError("");
@@ -23,19 +26,17 @@ export function Signup() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/user/signup", {
-        method: "POST",
-        headers: {
-          "Contetnt-Type": "application/json",
-        },
-        body: JSON.stringify({ firstName, lastName, username, password }),
+      const res = await api.post("/user/signup", {
+        firstName,
+        lastName,
+        username,
+        password,
       });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Signup failed");
-      }
+      const { token } = res.data;
+      localStorage.setItem("token", token);
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message|| err.message);
       setTimeout(() => {
         setError("");
       }, 3000);
