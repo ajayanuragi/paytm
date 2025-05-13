@@ -3,9 +3,11 @@ import { Navbar } from "../components/dashboard/Navbar";
 import { Users } from "../components/dashboard/Users";
 
 export function Dashboard() {
-  return <div className="">
-    <Navbar />
-    <Balance />
-    <Users />
-  </div>;
+  return (
+    <div>
+      <Navbar />
+      <Balance />
+      <Users />
+    </div>
+  );
 }

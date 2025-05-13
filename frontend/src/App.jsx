@@ -20,7 +20,7 @@ function App() {
           }
         />
         <Route
-          path="/send"
+          path="/send/:id"
           element={
             <PortectedRoute>
               <SendMoney />
