@@ -7,7 +7,7 @@ import api from "../api/api";
 export function Dashboard() {
   const [currentUser, setCurrentUser] = useState({});
   useEffect(() => {
-    async function fetchBalance() {
+    async function fetchProfile() {
       try {
         const res = await api.get("/user/me");
         setCurrentUser(res.data.user);
@@ -15,7 +15,7 @@ export function Dashboard() {
         console.error(err.message);
       }
     }
-    fetchBalance();
+    fetchProfile();
   }, []);
 
   if (!currentUser) {

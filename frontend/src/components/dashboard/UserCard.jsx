@@ -10,13 +10,13 @@ export function UserCard({ user }) {
   })();
 
   return (
-    <div className="flex justify-between items-center my-4">
-      <div className="flex gap-4 items-center">
-        <div className="bg-gray-200 rounded-full h-10 w-10 flex items-center justify-center">{initials}</div>
-        <div className="font-black"> {fullName}</div>
+    <div className="flex justify-between items-center md:my-2">
+      <div className="flex gap-2 md:gap-4 items-center">
+        <div className="bg-gray-200 rounded-full h-6 w-6 flex items-center justify-center text-xs md:text-base md:h-10 md:w-10">{initials}</div>
+        <div className="font-black text-sm md:text-base"> {fullName}</div>
       </div>
       <button
-        className="bg-black text-xs p-2 md:text-l md:p-4 text-white rounded-md"
+        className="bg-black text-xs md:text-base p-2 md:text-l my-1 text-white rounded-md"
         onClick={() => {
           navigate(`/send/${user._id}`, {
             state:{
