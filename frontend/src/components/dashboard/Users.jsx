@@ -2,21 +2,25 @@ import { useEffect, useState } from "react";
 import { UserCard } from "./UserCard";
 import api from "../../api/api";
 
-export function Users() {
+export function Users({ userId }) {
   const [filter, setFilter] = useState("");
   const [users, setUsers] = useState([]);
-  
+
   useEffect(() => {
     async function fetchUsers() {
       const endpoint = filter ? `/user/bulk?filter=${filter}` : "/user/bulk";
       const res = await api.get(endpoint);
-      setUsers(res.data.users);
+      const filteredUsers = res.data.users.filter(
+        (user) => user._id && user._id !== userId
+      );
+      setUsers(filteredUsers);
     }
     const debounceTimer = setTimeout(() => {
       fetchUsers();
     });
     return () => clearTimeout(debounceTimer);
-  }, [filter]);
+  }, [filter, userId]);
+  users.filter((user) => user._id !== userId);
 
   return (
     <div className="px-8 py-2">

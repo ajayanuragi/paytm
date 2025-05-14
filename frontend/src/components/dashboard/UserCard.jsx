@@ -16,7 +16,7 @@ export function UserCard({ user }) {
         <div className="font-black"> {fullName}</div>
       </div>
       <button
-        className="bg-black p-4 text-white rounded-md"
+        className="bg-black text-xs p-2 md:text-l md:p-4 text-white rounded-md"
         onClick={() => {
           navigate(`/send/${user._id}`, {
             state:{

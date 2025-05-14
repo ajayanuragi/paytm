@@ -5,23 +5,27 @@ import { Users } from "../components/dashboard/Users";
 import api from "../api/api";
 
 export function Dashboard() {
-  const [balance, setBalance] = useState(0);
+  const [currentUser, setCurrentUser] = useState({});
   useEffect(() => {
     async function fetchBalance() {
       try {
-        const res = await api.get("/account/balance");
-        setBalance(res.data.balance);
+        const res = await api.get("/user/me");
+        setCurrentUser(res.data.user);
       } catch (err) {
         console.error(err.message);
       }
     }
     fetchBalance();
   }, []);
+
+  if (!currentUser) {
+    return <div className="p-8 text-red-500">Failed to load user data</div>;
+  }
   return (
     <div>
-      <Navbar />
-      <Balance balance={balance} />
-      <Users />
+      <Navbar name={currentUser.firstName} />
+      <Balance balance={currentUser.balance} />
+      <Users userId={currentUser._id} />
     </div>
   );
 }
