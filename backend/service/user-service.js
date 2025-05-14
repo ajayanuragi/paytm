@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/config.js";
 import { Account } from "../model/account-model.js";
+import { findBalance } from "./account-service.js";
 
 export const createUser = async ({
   username,
@@ -75,12 +76,21 @@ export const getUsersByFilter = async (filter) => {
       { firstName: { $regex: filter, $options: "i" } },
       { lastName: { $regex: filter, $options: "i" } },
     ],
-  });
+  }).select("-password");
   return users;
 };
 export const getAllUser = async () => {
   const users = await User.find();
   return users;
+};
+
+export const getUserProfile = async (userId) => {
+  if (!userId) throw new Error("USER_ID_REQUIRED");
+  const user = await User.findById(userId).select("-password");
+  if (!user) throw new Error("USER_NOT_FOUND");
+  const balance = await findBalance(userId)
+  user.balance = balance
+  return user;
 };
 
 const findUser = async (username) => {

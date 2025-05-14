@@ -2,6 +2,7 @@ import {
   authenticateUser,
   createUser,
   getAllUser,
+  getUserProfile,
   getUsersByFilter,
   updateUser,
 } from "../service/user-service.js";
@@ -16,7 +17,7 @@ export const signupUser = async (req, res) => {
     });
   } catch (error) {
     if (error.message === "USERNAME_TAKEN") {
-      return res.status(411).json({
+      return res.status(409).json({
         success: false,
         message: "Username already taken",
       });
@@ -39,7 +40,7 @@ export const signinUser = async (req, res) => {
     });
   } catch (error) {
     if (error.message === "INVALID_CREDENTIALS") {
-      return res.status(411).json({
+      return res.status(401).json({
         success: false,
         message: "Wrong username or password",
       });
@@ -61,7 +62,7 @@ export const updateUserProfile = async (req, res) => {
     });
   } catch (error) {
     if (error.message === "WEAK_PASSWORD") {
-      return res.status(411).json({
+      return res.status(400).json({
         success: false,
         message: "Password is too weak",
       });
@@ -86,6 +87,7 @@ export const getBulkUsers = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      message: "Find users successfully",
       users: users.map((user) => ({
         firstName: user.firstName,
         lastName: user.lastName,
@@ -97,6 +99,30 @@ export const getBulkUsers = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error fetching users",
+      error: error.message,
+    });
+  }
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    const user = await getUserProfile(req.user.id);
+    return res.status(200).json({
+      success: true,
+      message: "Your profile information",
+      user: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        _id: user._id,
+        balance: user.balance,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching profile",
       error: error.message,
     });
   }
