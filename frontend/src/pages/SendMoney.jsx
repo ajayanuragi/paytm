@@ -9,6 +9,7 @@ export function SendMoney() {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
   const { firstName, lastName } = location.state || {};
 
   const handleTransfer = async () => {
@@ -21,8 +22,11 @@ export function SendMoney() {
         to: id,
         amount,
       });
-      alert("Transfer successful!");
-      navigate(-1);
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        navigate(-1);
+      }, 2000);
     } catch (error) {
       setError(error.response?.data?.message || "Transfer failed");
     } finally {
@@ -88,6 +92,11 @@ export function SendMoney() {
           </button>
         </div>
       </div>
+      {showSuccess && (
+        <div className="fixed top-4 right-4 bg-black text-white px-4 py-2 rounded-md shadow-lg animate-fade-in">
+          Transfer successful!
+        </div>
+      )}
     </div>
   );
 }
