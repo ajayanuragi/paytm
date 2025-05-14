@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getBulkUsers,
+  getProfile,
   signinUser,
   signupUser,
   updateUserProfile,
@@ -17,5 +18,6 @@ userRouter.post("/signin", signinValidation, signinUser);
 userRouter.use(authMiddleware);
 userRouter.put("/", updateValidation, updateUserProfile);
 userRouter.get("/bulk", getBulkUsers);
+userRouter.get('/me', getProfile)
 
 export default userRouter;
