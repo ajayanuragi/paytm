@@ -23,7 +23,7 @@ export function Dashboard() {
   }
   return (
     <div>
-      <Navbar name={currentUser.firstName} />
+      <Navbar user={currentUser} />
       <Balance balance={currentUser.balance} />
       <Users userId={currentUser._id} />
     </div>
