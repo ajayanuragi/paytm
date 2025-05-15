@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import api from "../../api/api";
+import api from "../api/api";
 
 export const EditProfile = ({ currentUser }) => {
   const [formData, setFormData] = useState({
@@ -49,7 +49,13 @@ export const EditProfile = ({ currentUser }) => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl">Edit Profile</h2>
+      <div className=" flex justify-between items-center">
+        <h2 className="text-3xl">Edit Profile</h2>
+        <button className="bg-black text-white px-4 py-2 rounded-md text-sm"
+        onClick={()=>{
+          navigate(-1)
+        }}>Cancel</button>
+      </div>
       {error && <div className="mb-4 text-red-500">{error}</div>}
       {successMessage && (
         <div className="mb-4 text-green-600 bg-green-100 p-2 rounded">
@@ -57,7 +63,7 @@ export const EditProfile = ({ currentUser }) => {
         </div>
       )}
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
+        <div className=" mt-4 mb-4">
           <label htmlFor="" className="block text-gray-700 mb-2">
             First Name
           </label>
@@ -109,6 +115,7 @@ export const EditProfile = ({ currentUser }) => {
         >
           {isLoading ? "Updating..." : "Update Profile"}
         </button>
+        
       </form>
     </div>
   );
