@@ -6,7 +6,7 @@ import { SendMoney } from "./pages/SendMoney";
 import { PortectedRoute } from "./pages/ProtectedRoute";
 import { PageNotFound } from "./pages/PageNotFound";
 import { Home } from "./pages/Home";
-import { EditProfile } from "./components/profile/EditProfile";
+import { EditProfile } from "./pages/EditProfile";
 function App() {
   return (
     <>
